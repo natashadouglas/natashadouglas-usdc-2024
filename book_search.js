@@ -68,7 +68,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
                     // Extract the word preceding the hyphen
                     const hyphenatedWord = textSegment.split(' ').pop().slice(0, -1);
 
-                    // Concatenate if search term starts with hyphenated word
+                    // Concatenate if search term contains hyphenated word
                     if (searchTerm.startsWith(hyphenatedWord)) {
                         concatenatedWords = textSegment.slice(0, -1) + preprocessTextSegment(nextContent.Text);
                         console.log(concatenatedWords)
@@ -164,13 +164,14 @@ if (test2result.Results.length == 1) {
     console.log("Received:", test2result.Results.length);
 }
 
-// Test checks if function can correctly find term that is split across two lines by hyphen.
+// Test checks if function can correctly identify and concatenate term that is split and hyphenated across 2 lines.
+// Test ensures that words like "dark-" at end of one line and "ness" at start of next line are correctly combined.
 const resultForHyphenatedTerm = findSearchTermInBooks('darkness', twentyLeaguesIn);
 
 if (resultForHyphenatedTerm.Results.length > 0) {
-    console.log("PASS: Test 3: Function correctly finds hyphenated terms.");
+    console.log("PASS: Test 3: Function successfully identifies and concatenates hyphenated terms split across lines.");
 } else {
-    console.log("FAIL: Test 3: Function fails at finding hyphenated terms.");
+    console.log("FAIL: Test 3: Function fails to properly identify or concatenate hyphenated terms split across lines.");
     console.log(`Expected at least 1 result, but received ${resultForHyphenatedTerm.Results.length} results.`);
 }
 
