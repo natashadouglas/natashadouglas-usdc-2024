@@ -45,30 +45,30 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
 
     // Iterate through each book in scannedTextObj
     scannedTextObj.forEach(book => {
-        // Check if book.Content is an array
+        // Check if book.Content is an array.
         if (!Array.isArray(book.Content)) return;
 
-        // Loop through book content
+        // Loop through book content.
         for (let i = 0; i < book.Content.length; i++) {
             const content = book.Content[i];
 
-            // Check if content contains page, line, and text attributes
+            // Check if content contains page, line, and text attributes.
             if (!content.Page || !content.Line || typeof content.Text !== 'string') continue;
 
-            // Prepare text segment for processing
+            // Prepare text segment for processing.
             let textSegment = preprocessTextSegment(content.Text);
 
-            // Concatenate text segment
+            // Concatenate text segment.
             let concatenatedWords = textSegment;
 
-            // Check if line ends with hyphen and handle 
+            // Check if line ends with hyphen and handle. 
             if (textSegment.endsWith('-')) {
                 const nextContent = book.Content[i + 1];
                 if (nextContent && typeof nextContent.Text === 'string') {
-                    // Extract the word preceding the hyphen
+                    // Extract the word preceding the hyphen.
                     const hyphenatedWord = textSegment.split(' ').pop().slice(0, -1);
 
-                    // Concatenate if search term contains hyphenated word
+                    // Concatenate if search term contains hyphenated word.
                     if (searchTerm.startsWith(hyphenatedWord)) {
                         concatenatedWords = textSegment.slice(0, -1) + preprocessTextSegment(nextContent.Text);
                         console.log(concatenatedWords)
@@ -76,7 +76,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
                 }
             }
 
-            // Use regex to find whole word matches
+            // Use regex to find whole word matches.
             const regex = new RegExp(`\\b${searchTerm}\\b`);
             if (regex.test(concatenatedWords)) {
                 results.Results.push({ ISBN: book.ISBN, Page: content.Page, Line: content.Line });
@@ -91,7 +91,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
     return results;
 }
 
-  /** Example input object. */
+/** Example input object. */
 const twentyLeaguesIn = [
     {
         "Title": "Twenty Thousand Leagues Under the Sea",
@@ -116,7 +116,7 @@ const twentyLeaguesIn = [
     }
 ]
     
-/** Example output object */
+/** Example output object. */
 const twentyLeaguesOut = {
     "SearchTerm": "the",
     "Results": [
@@ -165,7 +165,7 @@ if (test2result.Results.length == 1) {
 }
 
 // Test checks if function can correctly identify and concatenate term that is split and hyphenated across 2 lines.
-// Test ensures that words like "dark-" at end of one line and "ness" at start of next line are correctly combined.
+// Test ensures that words like "dark-" at end of 1 line and "ness" (e.g. "dark-ness") at start of next line are correctly combined.
 const resultForHyphenatedTerm = findSearchTermInBooks('darkness', twentyLeaguesIn);
 
 if (resultForHyphenatedTerm.Results.length > 0) {
