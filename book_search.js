@@ -43,7 +43,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
      // Create results object to store search results.
     const results = { SearchTerm: searchTerm, Results: [] };
 
-    // Iterate through each book in scannedTextObj
+    // Iterate through each book in scannedTextObj.
     scannedTextObj.forEach(book => {
         // Check if book.Content is an array.
         if (!Array.isArray(book.Content)) return;
